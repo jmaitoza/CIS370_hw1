@@ -8,3 +8,13 @@ a.) 	the output is as follows:
 b.)	This does not contradict copy on write as when the parent process is initially forked the parent and child both share the same address for value and it is only copied once new data is writen.
 
 c.)	The "else if(pid >0)" block is executed by the parent while the "else" block is executed by the child process. Upon executing the fork() call the parents process ID is not zero and is bigger than zero. The child process ID is going to be equal to zero when forked thus it executes the else block.
+
+Part 2.
+
+a.) 	A: 1115
+	B: 1114
+	C: 0
+	D: 1115
+	The order printed is: C -> D -> A -> B
+
+b.)	The child process could become a zombie however it will not become an orphan during its lifetime as the parent process waits for the child to finish execution. It could become a zombie as there is no return in the child.

@@ -1,0 +1,10 @@
+Part 1.
+
+a.) 	the output is as follows:
+	
+	B: Value = 100
+	A: Value = 140
+	 
+b.)	This does not contradict copy on write as when the parent process is initially forked the parent and child both share the same address for value and it is only copied once new data is writen.
+
+c.)	The "else if(pid >0)" block is executed by the parent while the "else" block is executed by the child process. Upon executing the fork() call the parents process ID is not zero and is bigger than zero. The child process ID is going to be equal to zero when forked thus it executes the else block.

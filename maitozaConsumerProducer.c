@@ -17,29 +17,41 @@ struct Items {
 void producer(struct Items *cbuf) {
   int next_produced;
 
-  srand(time(0));
-  next_produced = rand();
+  srand(time(NULL));
+  next_produced = rand() % 100;
 
   cbuf->buffer[cbuf->in] = next_produced;
+  printf("'%d' was produced ", cbuf->buffer[cbuf->in]);
   cbuf->in = (cbuf->in + 1) % BUFFER_SIZE;
-
-  printf("\n%d ", cbuf->buffer[cbuf->in]);
 }
 
 void consume(struct Items *cbuf) {
   int next_consumed;
 
   next_consumed = cbuf->buffer[cbuf->out];
+  printf("'%d' was consumed ", cbuf->buffer[cbuf->out]);
+  cbuf->buffer[cbuf->out] =
+      NULL; // this is to make the print function not print the consumed items
   cbuf->out = (cbuf->out + 1) % BUFFER_SIZE;
+}
 
-  printf("\n%d ", cbuf->buffer[cbuf->out]);
+void bufPrinter(struct Items *cbuf) {
+  printf("\nBuffer Contents: ");
+  for (int i = 0; i < BUFFER_SIZE; i++) {
+    if (cbuf->buffer[i] !=
+        NULL) { // assures program wont print '0' for empty cells of buffer
+      printf("%d ", cbuf->buffer[i]);
+    }
+  }
+  printf("\n");
 }
 
 int main(int argc, char *argv[]) {
   struct Items cbuf;
+
   char usrInput;
   for (int i = 0; i < BUFFER_SIZE; i++) {
-    cbuf.buffer[i] = NULL;
+    cbuf.buffer[i] = NULL; // initialize buffer with space characters
   }
 
   cbuf.in = 0;
@@ -52,22 +64,26 @@ int main(int argc, char *argv[]) {
     // producer
     //  check to see if input is "p", then check again if there is room in the
     //  buffer and produce an item
-    if (strcmp(&usrInput, "p") == 0 || strcmp(&usrInput, "P") == 0) {
+    if (usrInput == 112 || usrInput == 80) {
       if (((cbuf.in + 1) % BUFFER_SIZE) == cbuf.out) {
         printf("\t\t\t<Buffer full>\n");
       } else {
         producer(&cbuf);
+        bufPrinter(&cbuf);
       }
     }
-
     // consumer
-    if (strcmp(&usrInput, "c") == 0 || strcmp(&usrInput, "C") == 0) {
+    else if (usrInput == 99 || usrInput == 67) {
       // check to see if buffer is empty
       if (cbuf.in == cbuf.out) {
         printf("\t\t\t<Buffer is empty>\n");
       } else {
         consume(&cbuf);
+        bufPrinter(&cbuf);
       }
+    } else {
+      printf("\nExiting program...\n");
+      exit(0);
     }
   }
   // Producer

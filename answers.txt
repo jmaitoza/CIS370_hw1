@@ -1,7 +1,6 @@
 Part 1.
 
-a.) 	the output is as follows:
-	
+a.) the output is as follows:
 	B: Value = 100
 	A: Value = 140
 	 
@@ -11,12 +10,12 @@ c.)	The "else if(pid >0)" block is executed by the parent while the "else" block
 
 Part 2.
 
-a.) 	A: 1115
+a.) A: 1115
 	B: 1114
 	C: 0
 	D: 1115
 	The order printed is: C -> D -> A -> B
 
-b.)	The child process could become a zombie however it will not become an orphan during its lifetime as the parent process waits for the child to finish execution. It child would also not become a zombie because the parent waits for the child to avoid creating a zombie
+b.)	The child process could become a zombie however it will not become an orphan during its lifetime as the parent process waits for the child to finish execution. The child would also not become a zombie because the parent waits for the child to avoid creating a zombie
 
 

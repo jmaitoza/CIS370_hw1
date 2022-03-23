@@ -9,7 +9,7 @@
 #define BUFFER_SIZE 8
 
 struct Items {
-  char buffer[BUFFER_SIZE];
+  int buffer[BUFFER_SIZE];
   int in;
   int out;
 };
@@ -22,9 +22,8 @@ void producer(struct Items *cbuf) {
 
   cbuf->buffer[cbuf->in] = next_produced;
   cbuf->in = (cbuf->in + 1) % BUFFER_SIZE;
-  // produce an item in next_produced
-  //  while (((circ_buffer->in + 1) % BUFFER_SIZE) == circ_buffer->out) {
-  //    printf("<Buffer Full>");
+
+  printf("\n%d ", cbuf->buffer[cbuf->in]);
 }
 
 void consume(struct Items *cbuf) {
@@ -32,10 +31,13 @@ void consume(struct Items *cbuf) {
 
   next_consumed = cbuf->buffer[cbuf->out];
   cbuf->out = (cbuf->out + 1) % BUFFER_SIZE;
+
+  printf("\n%d ", cbuf->buffer[cbuf->out]);
 }
 
 int main(int argc, char *argv[]) {
   struct Items cbuf;
+  char usrInput;
   for (int i = 0; i < BUFFER_SIZE; i++) {
     cbuf.buffer[i] = NULL;
   }
@@ -43,6 +45,31 @@ int main(int argc, char *argv[]) {
   cbuf.in = 0;
   cbuf.out = 0;
 
+  while (1) {
+    // get inputs for from user
+    scanf(" %c", &usrInput);
+
+    // producer
+    //  check to see if input is "p", then check again if there is room in the
+    //  buffer and produce an item
+    if (strcmp(&usrInput, "p") == 0 || strcmp(&usrInput, "P") == 0) {
+      if (((cbuf.in + 1) % BUFFER_SIZE) == cbuf.out) {
+        printf("\t\t\t<Buffer full>\n");
+      } else {
+        producer(&cbuf);
+      }
+    }
+
+    // consumer
+    if (strcmp(&usrInput, "c") == 0 || strcmp(&usrInput, "C") == 0) {
+      // check to see if buffer is empty
+      if (cbuf.in == cbuf.out) {
+        printf("\t\t\t<Buffer is empty>\n");
+      } else {
+        consume(&cbuf);
+      }
+    }
+  }
   // Producer
   // item next_produced;
   // while (1) {
